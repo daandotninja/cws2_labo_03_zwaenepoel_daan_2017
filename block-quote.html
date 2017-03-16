@@ -1,0 +1,115 @@
+<link rel="import"  href="./bower_components/polymer/polymer.html">
+<dom-module id="block-qoute">
+
+	<template>
+			  <style>
+
+		.star-frame{
+	
+			float: left;
+			height: 100%;
+			width: 100%;
+			 background: url(./img/old_tv_empty_screen.png) no-repeat center center fixed; 
+		  -webkit-background-size: cover;
+		  -moz-background-size: cover;
+		  -o-background-size: cover;
+		  background-size: cover;
+			top:        0; 
+  			left:       0; 
+  			z-index: 10;
+
+  					
+		}
+		#tv-frame{
+			position: fixed;
+		
+			height: 100%;
+			width: 100%;
+			background-color: black;
+			z-index: 1;
+					
+		}
+	
+		#titles
+		{
+			position: absolute;
+			width: 10em;
+			height: 33em;
+			bottom: 3em;
+			left: 50%;
+			margin-left: -6.5em;
+			font-size: 350%;
+			font-weight: bold;
+			text-align: justify;
+			overflow: hidden;
+			transform-origin: 50% 100%;
+			color: yellow;
+			transform: perspective(300px) rotateX(25deg);
+		}    
+		
+		.titlecontent
+		{
+			position: absolute;
+			top: 100%;
+			animation: scroll 30s linear 0s infinite;
+		}
+
+		@keyframes scroll {
+			0% { top: 100%; }
+			100% { top: -90%; }
+		}
+    </style>
+    <section style="background-color:{{bgcolor}}" id="tv-frame">
+    <div class="star-frame">
+    	<div style="color:{{color}}" id="titles">
+    	<div id="text" class="titlecontent">
+		<p>
+			Luke Skywalker has vanished. In his absence, the sinister FIRST ORDER has risen from the ashes of the Empire and will not rest until Skywalker, the last Jedi, has been destroyed.With the support of the REPUBLIC, General Leia 
+			Luke Skywalker has vanished. In his absence, the sinister FIRST ORDER has risen from the ashes of the Empire and 
+		</p>
+		<p>
+			Organa leads a brave RESISTANCE. She is desperate to find her brother Luke and gain his help in restoring peace and justice to the galaxy.Leia has sent her most daring pilot on a secret mission to Jakku, where an old ally has discovered a clue to Luke's whereabouts....
+		</p>
+
+
+		</div>
+	</div>
+		<button id="pause" onclick="pause();">Pause</button>
+		<button onclick="restart();">Repeat</button>
+	</div>
+    </section>
+	<script type="text/javascript">
+		function restart(argument) {
+		 	var elm = document.getElementById("text");
+		 	elm.style.webkitAnimationPlayState = 'running';
+			var newone = elm.cloneNode(true);
+			elm.parentNode.replaceChild(newone, elm);
+		}
+		var state = 0;
+		function pause(argument) {
+		 	var elm = document.getElementById("text");
+		 	if (state== 0) {
+		 		elm.style.webkitAnimationPlayState = 'paused';
+		 		state=1;
+		 		document.getElementById("pause").firstChild.data="Start";
+
+		 	}
+			else{
+				elm.style.webkitAnimationPlayState = 'running';
+				state= 0;
+				document.getElementById("pause").firstChild.data="Pause";
+			}
+		}
+	</script>
+    
+	</template>
+</dom-module>
+
+<script type="text/javascript">
+	Polymer({
+		is: "block-qoute"
+
+		
+	})
+	
+</script>
