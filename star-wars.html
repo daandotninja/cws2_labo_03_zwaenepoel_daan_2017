@@ -1,8 +1,6 @@
-<link rel="import"  href="./bower_components/polymer/polymer.html">
-<dom-module id="block-qoute">
+<template id="starWars">
 
-	<template>
-			  <style>
+	 <style>
 
 		.star-frame{
 	
@@ -59,9 +57,9 @@
 			100% { top: -90%; }
 		}
     </style>
-    <section style="background-color:{{bgcolor}}" id="tv-frame">
+    <section  id="tv-frame">
     <div class="star-frame">
-    	<div style="color:{{color}}" id="titles">
+    	<div id="titles">
     	<div id="text" class="titlecontent">
 		<p>
 			Luke Skywalker has vanished. In his absence, the sinister FIRST ORDER has risen from the ashes of the Empire and will not rest until Skywalker, the last Jedi, has been destroyed.With the support of the REPUBLIC, General Leia 
@@ -74,43 +72,65 @@
 
 		</div>
 	</div>
-		<button id="pause" onclick="pause();">Pause</button>
-		<button onclick="restart();">Repeat</button>
+		<button id="pause" >Pause</button>
+		<button  id="restart">Repeat</button>
 	</div>
-    </section>
 	<script type="text/javascript">
-		function restart(argument) {
-		 	var elm = document.getElementById("text");
-		 	elm.style.webkitAnimationPlayState = 'running';
-		 	document.getElementById("pause").firstChild.data="Pause";
-			var newone = elm.cloneNode(true);
-			elm.parentNode.replaceChild(newone, elm);
-		}
-		var state = 0;
-		function pause(argument) {
-		 	var elm = document.getElementById("text");
-		 	if (state== 0) {
-		 		elm.style.webkitAnimationPlayState = 'paused';
-		 		state=1;
-		 		document.getElementById("pause").firstChild.data="Start";
 
-		 	}
-			else{
-				elm.style.webkitAnimationPlayState = 'running';
-				state= 0;
-				document.getElementById("pause").firstChild.data="Pause";
-			}
-		}
 	</script>
+    </section>
+
     
-	</template>
-</dom-module>
-
+</template>
 <script type="text/javascript">
-	Polymer({
-		is: "block-qoute"
+	var importedDoc = document.currentScript.ownerDocument;
+	var watch = document.registerElement('star-wars', {
+	    prototype: Object.create(HTMLElement.prototype, {
+	      createdCallback: {
+	        value: function () {
+	          var root = this.attachShadow({mode: 'closed'});
+	          var template = importedDoc.querySelector('#starWars');
+	          var clone = document.importNode(template.content, true);
+	          var state = 0;
+	          var text = clone.querySelector('#text');
+	          var pause =clone.querySelector('#pause');
+	          var restart =clone.querySelector('#restart');
+	          clone.querySelector('#titles').style.color = document.querySelector('#starWarsTag').getAttribute("color");
+	          clone.querySelector('#tv-frame').style.backgroundColor = document.querySelector('#starWarsTag').getAttribute("bgcolor");
 
-		
-	})
+	          pause.addEventListener('click', function(e) {
+			    
+			 	if (state== 0) {
+			 		text.style.webkitAnimationPlayState = 'paused';
+			 		state=1;
+			 		pause.firstChild.data="Start";
+
+			 	}
+				else{
+					text.style.webkitAnimationPlayState = 'running';
+					state= 0;
+					pause.firstChild.data="Pause";
+				}
+			  });
+	          restart.addEventListener('click', function(e) {
+
+			 	text.style.webkitAnimationPlayState = 'running';
+			 	pause.firstChild.data="Pause";
+				var newone = text.cloneNode(true);
+				text.parentNode.replaceChild(newone, text);
+	          });
+	          root.appendChild(clone);
+	          
+	        }
+
+
+	      }
+	    })
+
+	  });
 	
+
+
+
+
 </script>
